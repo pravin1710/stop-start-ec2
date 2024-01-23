@@ -17,13 +17,22 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'us-east-1'  # Replace with your AWS region
+
+      - name: Start EC2 Instance
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'start'
+        run: aws ec2 start-instances --instance-ids your-instance-id
+
+      - name: Stop EC2 Instance
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'stop'
+        run: aws ec2 stop-instances --instance-ids your-instance-id
+
     
-      
-      - name: Stop AWS EC2
-        
-        run: |
-          aws ec2 stop-instances --instance-ids ${{secrets.AWS_EC2_INSTANCE_ID }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}

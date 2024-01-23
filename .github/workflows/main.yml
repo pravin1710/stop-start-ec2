@@ -1,20 +1,16 @@
 name: turn on/off ec2 instance
- 
+
 on:
-  
   # If you want to trigger this on push to a branch uncomment below
-   push:
-    branches: [ main ]
-  
-  # This allows you to run this workflow manually from the Actions tab
+  push:
+    branches: [main]
+
   workflow_dispatch:
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -33,5 +29,3 @@ jobs:
       - name: Stop EC2 Instance
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'stop'
         run: aws ec2 stop-instances --instance-ids i-09a6d11103121b3f5
-
-    

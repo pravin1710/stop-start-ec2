@@ -6,11 +6,11 @@ on:
     branches: [main]
 
   workflow_dispatch:
-  inputs:
-    action:
-      description: 'Specify whether to start or stop the EC2 instance'
-      required: true
-      default: 'start'  # You can set a default value if needed
+    inputs:
+      action:
+        description: 'Specify whether to start or stop the EC2 instance'
+        required: true
+        default: 'start'  # You can set a default value if needed
 
 jobs:
   build:
@@ -27,10 +27,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: 'ap-south-1'  # Replace with your AWS region
 
-      - name: Start EC2 Instance
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'start'
-        run: aws ec2 start-instances --instance-ids i-09a6d11103121b3f5
-
-      - name: Stop EC2 Instance
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'stop'
-        run: aws ec2 stop-instances --instance-ids i-09a6d11103121b3f5
+      - name: Start or Stop EC2 Instance
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            if [ "${{ github.event.inputs.action }}" == "start" ]; then
+              aws ec2 start-instances --instance-ids i-09a6d11103121b3f5
+            elif [ "${{ github.event.inputs.action }}" == "stop" ]; then
+              aws ec2 stop-instances --instance-ids i-09a6d11103121b3f5
+            else
+              echo "Invalid action specified"
+              exit 1
+            fi
+          fi

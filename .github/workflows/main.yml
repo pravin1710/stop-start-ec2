@@ -23,8 +23,8 @@ jobs:
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: arn:aws:iam::1234567890:role/example-role
-          role-session-name: samplerolesession
+          role-to-assume: arn:aws:iam::238573859336:role/OIDC-deployment
+          role-session-name: OIDC-deployment
           aws-region: ap-south-1
 
       - name: Start or Stop EC2 Instance

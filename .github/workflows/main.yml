@@ -5,9 +5,6 @@ on:
   push:
     branches: [main]
 
-permissions:
-   id-token: write
-   contents: write
 
   workflow_dispatch:
     inputs:
@@ -35,9 +32,9 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             if [ "${{ github.event.inputs.action }}" == "start" ]; then
-              aws ec2 start-instances --instance-ids i-09a6d11103121b3f5
+              aws ec2 start-instances --instance-ids i-011db630cc4ed5181
             elif [ "${{ github.event.inputs.action }}" == "stop" ]; then
-              aws ec2 stop-instances --instance-ids i-09a6d11103121b3f5
+              aws ec2 stop-instances --instance-ids i-011db630cc4ed5181
             else
               echo "Invalid action specified"
               exit 1

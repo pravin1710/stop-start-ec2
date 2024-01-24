@@ -10,8 +10,7 @@ on:
       action:
         description: 'Specify whether to start or stop the EC2 instance'
         required: true
-        default: 'start'  # You can set a default value if needed
-
+        
 jobs:
   build:
     runs-on: ubuntu-latest

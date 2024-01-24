@@ -38,9 +38,9 @@ jobs:
       - name: Start or Stop EC2 Instance
         run: |
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            if [ "${{ github.event.inputs.state }}" == "start" ]; then
+            if [ "${{ github.event.inputs.state }}" == "1" ]; then
               aws ec2 start-instances --instance-ids i-011db630cc4ed5181
-            elif [ "${{ github.event.inputs.state }}" == "stop" ]; then
+            elif [ "${{ github.event.inputs.state }}" == "0" ]; then
               aws ec2 stop-instances --instance-ids i-011db630cc4ed5181
             else
               echo "Invalid action specified"
